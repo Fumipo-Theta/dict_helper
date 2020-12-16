@@ -104,7 +104,7 @@ def dig_all(obj, key, look_array=False, store=[], path=""):
                     key,
                     look_array,
                     [*acc, (obj.get(key), path+"."+str(kv[0]))
-                     ] if kv[0] is key else acc,
+                     ] if kv[0] == key else acc,
                     path+"."+str(kv[0])
                 ),
                 zip(obj.keys(), obj.values()),
@@ -228,14 +228,14 @@ def get(obj, *expression, separator="."):
             return dig(acc,key) if key is not "" else acc
         """
         if type(acc) is dict:
-            return dig(acc, key, True) if key is not "" else acc
+            return dig(acc, key, True) if key != "" else acc
 
         elif type(acc) in [list, tuple]:
             objectized = {}
             for i, e in enumerate(acc):
                 objectized[i] = e
 
-            return dig(objectized, key, True) if key is not "" else acc
+            return dig(objectized, key, True) if key != "" else acc
 
     return reduce(
         dig_func,
